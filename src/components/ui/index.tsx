@@ -11,19 +11,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', isLoading, children, className, disabled, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-95';
+    const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-95 rounded-full';
     
     const variants = {
-      primary: 'bg-violet-600 text-white hover:bg-violet-700 rounded-xl',
-      secondary: 'bg-sky-500 text-white hover:bg-sky-600 rounded-xl',
-      outline: 'border-2 border-violet-600 text-violet-600 hover:bg-violet-50 rounded-xl',
-      ghost: 'text-violet-600 hover:bg-violet-50 rounded-xl',
-      danger: 'border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-2xl',
+      primary: 'bg-white text-black hover:bg-white/90',
+      secondary: 'bg-canvas-soft text-ink hover:bg-canvas-softer border border-hairline-mid',
+      outline: 'border-2 border-hairline-mid text-ink hover:bg-canvas-softer',
+      ghost: 'text-ink hover:bg-canvas-soft',
+      danger: 'border-2 border-red-500 text-red-500 hover:bg-red-500/10',
     };
 
     const sizes = {
-      sm: 'px-3 py-1.5 text-xs min-h-[36px]',
-      md: 'px-4 py-2.5 text-sm min-h-[44px]',
+      sm: 'px-4 py-2 text-xs min-h-[36px]',
+      md: 'px-5 py-2.5 text-sm min-h-[44px]',
       lg: 'px-6 py-3.5 text-base min-h-[52px]',
     };
 
@@ -56,12 +56,12 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'default', className }: BadgeProps) {
   const variants = {
-    default: 'bg-slate-100 text-slate-600',
-    primary: 'bg-violet-100 text-violet-700',
-    success: 'bg-green-100 text-green-700',
-    warning: 'bg-amber-100 text-amber-700',
-    danger: 'bg-red-100 text-red-600',
-    info: 'bg-blue-100 text-blue-700',
+    default: 'bg-canvas-softer text-body',
+    primary: 'bg-white text-black',
+    success: 'bg-green-900/30 text-green-400 border border-green-800',
+    warning: 'bg-amber-900/30 text-amber-400 border border-amber-800',
+    danger: 'bg-red-900/30 text-red-400 border border-red-800',
+    info: 'bg-blue-900/30 text-blue-400 border border-blue-800',
   };
 
   return (
@@ -100,7 +100,7 @@ interface CardProps {
 export function Card({ children, className, onClick }: CardProps) {
   return (
     <div
-      className={cn('bg-white rounded-2xl shadow-sm border border-slate-100', onClick && 'cursor-pointer', className)}
+      className={cn('bg-canvas-soft rounded-2xl border border-hairline-mid', onClick && 'cursor-pointer', className)}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
@@ -122,13 +122,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1.5">
+          <label htmlFor={id} className="block text-sm font-medium text-body mb-1.5">
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-body">
               {icon}
             </div>
           )}
@@ -136,9 +136,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={id}
             className={cn(
-              'w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm transition-colors duration-200 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100',
+              'w-full rounded-xl border-2 border-hairline-mid bg-canvas-softer px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-mute focus:border-white focus:outline-none focus:ring-2 focus:ring-white/10',
               icon && 'pl-10',
-              error && 'border-red-300 focus:border-red-500 focus:ring-red-100',
+              error && 'border-red-500 focus:border-red-500 focus:ring-red-500/10',
               className
             )}
             {...props}
@@ -162,7 +162,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={id} className="block text-sm font-medium text-slate-700 mb-1.5">
+          <label htmlFor={id} className="block text-sm font-medium text-body mb-1.5">
             {label}
           </label>
         )}
@@ -170,8 +170,8 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={id}
           className={cn(
-            'w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm transition-colors duration-200 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100 resize-none',
-            error && 'border-red-300 focus:border-red-500 focus:ring-red-100',
+            'w-full rounded-xl border-2 border-hairline-mid bg-canvas-softer px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-mute focus:border-white focus:outline-none focus:ring-2 focus:ring-white/10 resize-none',
+            error && 'border-red-500 focus:border-red-500 focus:ring-red-500/10',
             className
           )}
           {...props}
@@ -190,6 +190,6 @@ interface SkeletonProps {
 
 export function Skeleton({ className }: SkeletonProps) {
   return (
-    <div className={cn('animate-shimmer rounded-lg', className)} />
+    <div className={cn('animate-shimmer rounded-lg bg-canvas-softer', className)} />
   );
 }
