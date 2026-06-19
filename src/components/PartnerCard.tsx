@@ -4,8 +4,10 @@ import { Star, Calendar } from 'lucide-react';
 import { Badge, Skeleton } from '@/components/ui';
 import { cn } from '@/utils/cn';
 import { formatCurrency, getActivityInfo } from '@/lib/utils';
-import ScheduleMeetingModal from '@/components/ScheduleMeetingModal';
+import BookingSheet from '@/components/BookingSheet';
 import type { Partner, ActivityType } from '@/lib/types';
+import { useBookings } from '@/lib/hooks/useBookings';
+import { appToast } from '@/lib/toast';
 
 // PartnerCard Component — compact, matches Featured card proportions
 interface PartnerCardProps {
@@ -14,7 +16,8 @@ interface PartnerCardProps {
 
 export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerCardProps) {
   const navigate = useNavigate();
-  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const { addBooking } = useBookings();
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const handleClick = () => {
     navigate(`/partner/${partner.id}`);
@@ -22,7 +25,28 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
 
   const handleScheduleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsScheduleOpen(true);
+    setIsBookingOpen(true);
+  };
+
+  const handleBookingConfirm = (draft: { activity: ActivityType; date: string; time: string; duration: number; meetingPoint: string }) => {
+    const subtotal = partner.hourlyRate * draft.duration;
+    const platformFee = Math.round(subtotal * 0.1);
+    const total = subtotal + platformFee;
+    
+    addBooking({
+      partner,
+      activity: draft.activity,
+      date: draft.date,
+      time: draft.time,
+      duration: draft.duration,
+      meetingPoint: draft.meetingPoint,
+      totalAmount: total,
+      status: 'confirmed',
+    });
+    
+    setIsBookingOpen(false);
+    appToast.success('Booking confirmed! View in Bookings tab 🎉');
+    navigate('/bookings');
   };
 
   return (
@@ -84,10 +108,11 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
         </div>
       </div>
 
-      <ScheduleMeetingModal
+      <BookingSheet
         partner={partner}
-        isOpen={isScheduleOpen}
-        onClose={() => setIsScheduleOpen(false)}
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        onConfirm={handleBookingConfirm}
       />
     </>
   );
