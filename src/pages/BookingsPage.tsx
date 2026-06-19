@@ -6,7 +6,7 @@ import { EmptyState, ReviewModal } from '@/components/Shared';
 import { useBookings } from '@/lib/hooks/useBookings';
 import { formatDate, formatTime, getActivityInfo } from '@/lib/utils';
 import { appToast } from '@/lib/toast';
-import type { Booking, Partner, BookingStatus } from '@/lib/types';
+import type { Booking, Partner } from '@/lib/types';
 
 type TabKey = 'upcoming' | 'active' | 'past';
 

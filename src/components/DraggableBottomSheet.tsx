@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { useRef, useState, useCallback, type ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
 interface DraggableBottomSheetProps {
@@ -105,9 +105,15 @@ export default function DraggableBottomSheet({
     <div
       ref={sheetRef}
       className={cn(
-        'fixed bottom-0 left-0 right-0 z-30 bg-canvas-soft rounded-t-3xl border border-hairline-mid border-b-0',
+        // Mobile: full-width bottom sheet
+        'fixed bottom-0 left-0 right-0 z-30',
+        'bg-canvas-soft rounded-t-3xl border border-hairline-mid border-b-0',
         'shadow-2xl shadow-black/50',
         'flex flex-col overflow-hidden',
+        // Tablet: narrower, centered with rounded corners on all sides
+        'sm:max-w-md sm:left-auto sm:right-[5%] sm:rounded-b-3xl sm:border-b sm:border-hairline-mid',
+        // Desktop: wider panel, more centered
+        'md:max-w-lg md:right-[8%]',
         className
       )}
       style={{
@@ -131,13 +137,13 @@ export default function DraggableBottomSheet({
 
       {/* Optional Header */}
       {header && (
-        <div className="flex-shrink-0 px-5 pb-2">
+        <div className="flex-shrink-0 px-4 sm:px-5 pb-2">
           {header}
         </div>
       )}
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 pb-8">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-5 pb-8">
         {children}
       </div>
     </div>

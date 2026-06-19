@@ -7,7 +7,7 @@ import { getReviewsByPartnerId } from '@/lib/mock-data/reviews';
 import { formatCurrency, getActivityInfo } from '@/lib/utils';
 import BookingSheet from '@/components/BookingSheet';
 import { appToast } from '@/lib/toast';
-import type { ActivityType, Partner } from '@/lib/types';
+import type { ActivityType } from '@/lib/types';
 import { useBookings } from '@/lib/hooks/useBookings';
 
 // ── Partner Page ──────────────────────────────────────────────
@@ -41,15 +41,14 @@ export default function PartnerPage() {
     const total = subtotal + platformFee;
     
     addBooking({
-      partner,
+      partnerId: partner.id,
       activity: draft.activity,
       date: draft.date,
-      time: draft.time,
+      startTime: draft.time,
       duration: draft.duration,
       meetingPoint: draft.meetingPoint,
       totalAmount: total,
-      status: 'confirmed',
-    });
+    }, partner);
     
     setIsBookingOpen(false);
     appToast.success('Booking confirmed! View in Bookings tab 🎉');
@@ -319,7 +318,7 @@ export default function PartnerPage() {
         partner={partner}
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
-        onConfirm={handleBookingConfirm}
+        onConfirm={(booking) => handleBookingConfirm({ ...booking, time: booking.startTime })}
       />
     </div>
   );

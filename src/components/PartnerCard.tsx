@@ -34,15 +34,14 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
     const total = subtotal + platformFee;
     
     addBooking({
-      partner,
+      partnerId: partner.id,
       activity: draft.activity,
       date: draft.date,
-      time: draft.time,
+      startTime: draft.time,
       duration: draft.duration,
       meetingPoint: draft.meetingPoint,
       totalAmount: total,
-      status: 'confirmed',
-    });
+    }, partner);
     
     setIsBookingOpen(false);
     appToast.success('Booking confirmed! View in Bookings tab 🎉');
@@ -112,7 +111,7 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
         partner={partner}
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
-        onConfirm={handleBookingConfirm}
+        onConfirm={(booking) => handleBookingConfirm({ ...booking, time: booking.startTime })}
       />
     </>
   );
