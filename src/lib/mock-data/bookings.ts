@@ -80,6 +80,19 @@ export const MOCK_BOOKINGS: Booking[] = [
 // Shared booking state for the demo app
 let sharedBookings: Booking[] = [...MOCK_BOOKINGS];
 
+// Subscription mechanism for reactive updates
+type Listener = () => void;
+const listeners = new Set<Listener>();
+
+function notify() {
+  listeners.forEach((l) => l());
+}
+
+export function subscribeToBookings(listener: Listener): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
 export function getUserBookings(): Booking[] {
   return [...sharedBookings];
 }
@@ -95,11 +108,13 @@ export function addBookingToStore(draft: BookingDraft, partner: Partner): Bookin
     status: 'confirmed',
   };
   sharedBookings = [newBooking, ...sharedBookings];
+  notify();
   return newBooking;
 }
 
 export function cancelBookingInStore(id: string): void {
   sharedBookings = sharedBookings.map(b => 
-    b.id === id ? { ...b, status: 'cancelled' as const } : b
+    b.id === id ? { ...b, status: 'cancelled' as const, cancelReason: 'Cancelled by user' } : b
   );
+  notify();
 }

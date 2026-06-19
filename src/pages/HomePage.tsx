@@ -3,8 +3,10 @@ import { Search, SlidersHorizontal, Bell, X, MapPin, Navigation, ChevronRight } 
 import { useNavigate } from 'react-router-dom';
 import { ActivityTag, PartnerCardSkeleton, PartnerCard, FeaturedPartnerCard } from '@/components/PartnerCard';
 import { Avatar } from '@/components/ui';
+import FilterSheet from '@/components/FilterSheet';
 import { getPartners } from '@/lib/mock-data/partners';
-import type { ActivityType } from '@/lib/types';
+import type { ActivityType, FilterState } from '@/lib/types';
+import { DEFAULT_FILTERS } from '@/lib/types';
 
 const PARTNERS = getPartners();
 
@@ -15,6 +17,10 @@ export default function HomePage() {
   const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading] = useState(false);
+  
+  // Filter state
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
 
   // Location state
   const [selectedCity, setSelectedCity] = useState('Mumbai');
@@ -60,6 +66,25 @@ export default function HomePage() {
 
   const featuredPartners = useMemo(() => {
     let partners = PARTNERS.filter(p => p.rating >= 4.8 && p.isVerified);
+    
+    // Apply filters
+    if (filters.activity !== null) {
+      partners = partners.filter(p => p.activities.includes(filters.activity));
+    }
+    if (filters.gender !== null) {
+      partners = partners.filter(p => p.gender === filters.gender);
+    }
+    if (filters.minRating > 0) {
+      partners = partners.filter(p => p.rating >= filters.minRating);
+    }
+    if (filters.maxPrice < 2000) {
+      partners = partners.filter(p => p.hourlyRate <= filters.maxPrice);
+    }
+    if (filters.verifiedOnly) {
+      partners = partners.filter(p => p.isVerified);
+    }
+    
+    // Apply quick filters
     if (selectedActivity) {
       partners = partners.filter(p => p.activities.includes(selectedActivity));
     }
@@ -70,10 +95,29 @@ export default function HomePage() {
       );
     }
     return partners.slice(0, 4);
-  }, [selectedActivity, searchQuery]);
+  }, [selectedActivity, searchQuery, filters]);
 
   const filteredOnlinePartners = useMemo(() => {
     let partners = PARTNERS.filter(p => p.isOnline);
+    
+    // Apply filters
+    if (filters.activity !== null) {
+      partners = partners.filter(p => p.activities.includes(filters.activity));
+    }
+    if (filters.gender !== null) {
+      partners = partners.filter(p => p.gender === filters.gender);
+    }
+    if (filters.minRating > 0) {
+      partners = partners.filter(p => p.rating >= filters.minRating);
+    }
+    if (filters.maxPrice < 2000) {
+      partners = partners.filter(p => p.hourlyRate <= filters.maxPrice);
+    }
+    if (filters.verifiedOnly) {
+      partners = partners.filter(p => p.isVerified);
+    }
+    
+    // Apply quick filters
     if (selectedActivity) {
       partners = partners.filter(p => p.activities.includes(selectedActivity));
     }
@@ -84,10 +128,29 @@ export default function HomePage() {
       );
     }
     return partners.sort((a, b) => b.rating - a.rating);
-  }, [selectedActivity, searchQuery]);
+  }, [selectedActivity, searchQuery, filters]);
 
   const allCompanions = useMemo(() => {
     let partners = [...PARTNERS];
+    
+    // Apply filters
+    if (filters.activity !== null) {
+      partners = partners.filter(p => p.activities.includes(filters.activity));
+    }
+    if (filters.gender !== null) {
+      partners = partners.filter(p => p.gender === filters.gender);
+    }
+    if (filters.minRating > 0) {
+      partners = partners.filter(p => p.rating >= filters.minRating);
+    }
+    if (filters.maxPrice < 2000) {
+      partners = partners.filter(p => p.hourlyRate <= filters.maxPrice);
+    }
+    if (filters.verifiedOnly) {
+      partners = partners.filter(p => p.isVerified);
+    }
+    
+    // Apply quick filters
     if (selectedActivity) {
       partners = partners.filter(p => p.activities.includes(selectedActivity));
     }
@@ -105,7 +168,7 @@ export default function HomePage() {
       .filter(p => onlineIds.has(p.id))
       .sort((a, b) => b.rating - a.rating);
     return [...offlinePartners, ...onlinePartners];
-  }, [selectedActivity, searchQuery, filteredOnlinePartners]);
+  }, [selectedActivity, searchQuery, filteredOnlinePartners, filters]);
 
   return (
     <div className="min-h-screen bg-canvas">
@@ -266,6 +329,7 @@ export default function HomePage() {
             </button>
           )}
           <button
+            onClick={() => setIsFilterOpen(true)}
             className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 hover:bg-surface-pressed rounded-full transition-colors"
             aria-label="Filters"
           >

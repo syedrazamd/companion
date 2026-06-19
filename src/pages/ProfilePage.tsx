@@ -24,23 +24,23 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen pb-8">
       {/* Profile Header */}
-      <div className="bg-gradient-to-b from-violet-600 to-violet-800 text-white pb-20 relative">
+      <div className="bg-canvas-soft border-b border-hairline-mid pb-20 relative">
         <div className="flex items-center justify-between px-5 pt-6">
-          <h1 className="text-xl font-bold">Profile</h1>
+          <h1 className="text-xl font-bold text-ink">Profile</h1>
           <button
             onClick={() => setShowEditProfile(true)}
-            className="w-10 h-10 rounded-full flex items-center justify-center border border-white/30 hover:bg-white/10 transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center border border-hairline-mid hover:bg-canvas-softer transition-colors"
             aria-label="Edit profile"
           >
-            <Pencil className="w-4 h-4" />
+            <Pencil className="w-4 h-4 text-ink" />
           </button>
         </div>
         <div className="flex flex-col items-center pt-4">
-          <Avatar src={USER.avatar} alt={USER.name} size="xl" className="border-[3px] border-white" />
-          <h2 className="text-xl font-bold mt-3">{USER.name}</h2>
-          <p className="text-violet-200 text-sm">{USER.phone}</p>
+          <Avatar src={USER.avatar} alt={USER.name} size="xl" className="border-[3px] border-hairline-mid" />
+          <h2 className="text-xl font-bold mt-3 text-ink">{USER.name}</h2>
+          <p className="text-body text-sm">{USER.phone}</p>
           {USER.isVerified && (
-            <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-white/40 px-3 py-0.5 text-xs">
+            <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-hairline-mid px-3 py-0.5 text-xs text-ink">
               ✓ Verified
             </span>
           )}
@@ -50,25 +50,25 @@ export default function ProfilePage() {
       {/* Stats Cards */}
       <div className="relative z-10 -mt-10 px-5">
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-2xl shadow-md py-4 text-center">
-            <div className="text-2xl font-bold text-violet-600">{USER.stats.totalBookings}</div>
-            <div className="text-xs text-slate-500 mt-0.5">Bookings</div>
+          <div className="bg-canvas-soft rounded-2xl border border-hairline-mid py-4 text-center">
+            <div className="text-2xl font-bold text-white">{USER.stats.totalBookings}</div>
+            <div className="text-xs text-body mt-0.5">Bookings</div>
           </div>
-          <div className="bg-white rounded-2xl shadow-md py-4 text-center">
-            <div className="text-2xl font-bold text-violet-600">{formatCurrency(USER.stats.totalSpent)}</div>
-            <div className="text-xs text-slate-500 mt-0.5">Total spent</div>
+          <div className="bg-canvas-soft rounded-2xl border border-hairline-mid py-4 text-center">
+            <div className="text-2xl font-bold text-white">{formatCurrency(USER.stats.totalSpent)}</div>
+            <div className="text-xs text-body mt-0.5">Total spent</div>
           </div>
-          <div className="bg-white rounded-2xl shadow-md py-4 text-center">
+          <div className="bg-canvas-soft rounded-2xl border border-hairline-mid py-4 text-center">
             <div className="text-2xl">{favActivity.icon}</div>
-            <div className="text-xs text-slate-500 mt-0.5">Fav activity</div>
+            <div className="text-xs text-body mt-0.5">Fav activity</div>
           </div>
         </div>
       </div>
 
       {/* Account Section */}
       <div className="mt-6">
-        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider px-5 mb-2">Account</h3>
-        <div className="bg-white rounded-2xl shadow-sm mx-5 divide-y divide-slate-100 overflow-hidden">
+        <h3 className="text-sm font-semibold text-body uppercase tracking-wider px-5 mb-2">Account</h3>
+        <div className="bg-canvas-soft rounded-2xl border border-hairline-mid mx-5 divide-y divide-hairline-mid overflow-hidden">
           <SettingsRow icon="👤" label="Edit Profile" onClick={() => setShowEditProfile(true)} />
           <SettingsRow icon="🔔" label="Notifications" />
           <SettingsRow icon="💳" label="Payment Methods" />
@@ -79,8 +79,8 @@ export default function ProfilePage() {
 
       {/* Preferences Section */}
       <div className="mt-6">
-        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider px-5 mb-2">Preferences</h3>
-        <div className="bg-white rounded-2xl shadow-sm mx-5 divide-y divide-slate-100 overflow-hidden">
+        <h3 className="text-sm font-semibold text-body uppercase tracking-wider px-5 mb-2">Preferences</h3>
+        <div className="bg-canvas-soft rounded-2xl border border-hairline-mid mx-5 divide-y divide-hairline-mid overflow-hidden">
           <SettingsRow icon="🌍" label="Language" value="English" />
           <SettingsRow icon="📍" label="Default City" value="Mumbai" />
           <SettingsRow icon="💱" label="Currency" value="INR ₹" />
@@ -89,8 +89,8 @@ export default function ProfilePage() {
 
       {/* Support Section */}
       <div className="mt-6">
-        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider px-5 mb-2">Support</h3>
-        <div className="bg-white rounded-2xl shadow-sm mx-5 divide-y divide-slate-100 overflow-hidden">
+        <h3 className="text-sm font-semibold text-body uppercase tracking-wider px-5 mb-2">Support</h3>
+        <div className="bg-canvas-soft rounded-2xl border border-hairline-mid mx-5 divide-y divide-hairline-mid overflow-hidden">
           <SettingsRow icon="❓" label="Help Center" />
           <SettingsRow icon="📞" label="Contact Support" />
           <SettingsRow icon="📜" label="Terms of Service" />
@@ -109,9 +109,9 @@ export default function ProfilePage() {
       {showSignOut && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/50 animate-fade-in" onClick={() => setShowSignOut(false)} />
-          <div className="relative bg-white rounded-3xl p-6 max-w-xs w-full animate-scale-in z-10 text-center">
-            <h3 className="text-lg font-bold text-slate-900 mb-2">Sign Out?</h3>
-            <p className="text-sm text-slate-500 mb-4">Are you sure you want to sign out?</p>
+          <div className="relative bg-canvas-soft rounded-3xl p-6 max-w-xs w-full animate-scale-in z-10 text-center border border-hairline-mid">
+            <h3 className="text-lg font-bold text-ink mb-2">Sign Out?</h3>
+            <p className="text-sm text-body mb-4">Are you sure you want to sign out?</p>
             <div className="flex gap-3">
               <Button variant="outline" size="md" className="flex-1" onClick={() => setShowSignOut(false)}>Cancel</Button>
               <Button variant="primary" size="md" className="flex-1 bg-red-500 hover:bg-red-600" onClick={() => { setShowSignOut(false); navigate('/login'); }}>Sign Out</Button>
@@ -124,31 +124,31 @@ export default function ProfilePage() {
       {showEditProfile && (
         <div className="fixed inset-0 z-50">
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={() => setShowEditProfile(false)} />
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl animate-slide-up max-h-[80vh] overflow-y-auto">
-            <div className="px-5 pt-4 pb-3 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="text-lg font-bold">Edit Profile</h2>
-              <button onClick={() => setShowEditProfile(false)} className="p-2 -mr-2 rounded-full hover:bg-slate-100" aria-label="Close">
-                <X className="w-5 h-5 text-slate-600" />
+          <div className="fixed bottom-0 left-0 right-0 bg-canvas-soft rounded-t-3xl animate-slide-up max-h-[80vh] overflow-y-auto border-t border-hairline-mid">
+            <div className="px-5 pt-4 pb-3 border-b border-hairline-mid flex items-center justify-between">
+              <h2 className="text-lg font-bold text-ink">Edit Profile</h2>
+              <button onClick={() => setShowEditProfile(false)} className="p-2 -mr-2 rounded-full hover:bg-canvas-softer" aria-label="Close">
+                <X className="w-5 h-5 text-body" />
               </button>
             </div>
             <div className="px-5 py-4 space-y-4">
               <div>
-                <label htmlFor="editName" className="text-sm font-medium text-slate-700 mb-1.5 block">Name</label>
+                <label htmlFor="editName" className="text-sm font-medium text-body mb-1.5 block">Name</label>
                 <input
                   id="editName"
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                  className="w-full rounded-xl border-2 border-hairline-mid bg-canvas-softer px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/10 placeholder:text-mute"
                 />
               </div>
               <div>
-                <label htmlFor="editCity" className="text-sm font-medium text-slate-700 mb-1.5 block">City</label>
+                <label htmlFor="editCity" className="text-sm font-medium text-body mb-1.5 block">City</label>
                 <select
                   id="editCity"
                   value={editCity}
                   onChange={(e) => setEditCity(e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                  className="w-full rounded-xl border-2 border-hairline-mid bg-canvas-softer px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/10"
                 >
                   {CITIES.map(city => (
                     <option key={city} value={city}>{city}</option>

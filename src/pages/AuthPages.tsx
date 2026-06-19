@@ -139,19 +139,19 @@ export function VerifyOtpPage() {
   }, [otp, navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col px-6 py-8">
+    <div className="min-h-screen flex flex-col px-6 py-8 bg-canvas">
       <button
         onClick={() => navigate(-1)}
-        className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors mb-8"
+        className="w-10 h-10 rounded-full bg-canvas-softer flex items-center justify-center hover:bg-canvas-soft transition-colors mb-8"
         aria-label="Go back"
       >
-        <ArrowLeft className="w-5 h-5 text-slate-700" />
+        <ArrowLeft className="w-5 h-5 text-body" />
       </button>
 
       <div className="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Enter OTP</h1>
-        <p className="text-sm text-slate-500 mb-1">OTP sent to +91 {phone}</p>
-        <button className="text-violet-600 text-sm font-medium mb-8 hover:underline" type="button">
+        <h1 className="text-2xl font-bold text-ink mb-2">Enter OTP</h1>
+        <p className="text-sm text-body mb-1">OTP sent to +91 {phone}</p>
+        <button className="text-white text-sm font-medium mb-8 hover:underline" type="button">
           Change number
         </button>
 
@@ -166,22 +166,22 @@ export function VerifyOtpPage() {
               value={digit}
               onChange={(e) => handleChange(i, e.target.value.replace(/\D/g, ''))}
               onKeyDown={(e) => handleKeyDown(i, e)}
-              className="w-12 h-14 text-center text-2xl font-bold border-2 rounded-xl transition-colors focus:border-violet-600 focus:ring-2 focus:ring-violet-100 focus:outline-none"
+              className="w-12 h-14 text-center text-2xl font-bold border-2 border-hairline-mid bg-canvas-softer text-ink rounded-xl transition-colors focus:border-white focus:ring-2 focus:ring-white/10 focus:outline-none"
               aria-label={`OTP digit ${i + 1}`}
             />
           ))}
         </div>
 
-        <p className="text-xs text-slate-400 text-center mb-6">
+        <p className="text-xs text-body text-center mb-6">
           Demo: enter any 6 digits (e.g. 123456)
         </p>
 
         {resendTimer > 0 ? (
-          <p className="text-sm text-slate-400 text-center">Resend in {resendTimer}s</p>
+          <p className="text-sm text-body text-center">Resend in {resendTimer}s</p>
         ) : (
           <button
             onClick={() => { setResendTimer(28); appToast.info('OTP sent to your number'); }}
-            className="text-violet-600 text-sm font-medium text-center hover:underline"
+            className="text-white text-sm font-medium text-center hover:underline"
             type="button"
           >
             Resend OTP
@@ -190,8 +190,8 @@ export function VerifyOtpPage() {
 
         {isVerifying && (
           <div className="mt-6 text-center">
-            <div className="inline-block w-6 h-6 border-2 border-violet-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-slate-500 mt-2">Verifying...</p>
+            <div className="inline-block w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-body mt-2">Verifying...</p>
           </div>
         )}
       </div>
