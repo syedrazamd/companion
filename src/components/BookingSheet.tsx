@@ -117,13 +117,13 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={handleClose} />
       
       {/* Sheet */}
-      <div className="fixed bottom-0 left-0 right-0 md:relative md:max-w-md md:mx-auto md:top-1/2 md:-translate-y-1/2 bg-white rounded-t-3xl md:rounded-3xl animate-slide-up md:animate-fade-in max-h-[90vh] overflow-y-auto">
+      <div className="fixed bottom-0 left-0 right-0 md:relative md:max-w-md md:mx-auto md:top-1/2 md:-translate-y-1/2 bg-canvas-soft rounded-t-3xl md:rounded-3xl animate-slide-up md:animate-fade-in max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white z-10 px-5 pt-4 pb-2 border-b border-slate-100">
+        <div className="sticky top-0 bg-canvas-soft z-10 px-5 pt-4 pb-2 border-b border-hairline-mid">
           <div className="flex items-center justify-between">
             {state.step > 1 && !state.isConfirmed ? (
-              <button onClick={() => dispatch({ type: 'PREV_STEP' })} className="p-2 -ml-2 rounded-full hover:bg-slate-100" aria-label="Go back">
-                <ChevronLeft className="w-5 h-5 text-slate-600" />
+              <button onClick={() => dispatch({ type: 'PREV_STEP' })} className="p-2 -ml-2 rounded-full hover:bg-canvas-softer" aria-label="Go back">
+                <ChevronLeft className="w-5 h-5 text-body" />
               </button>
             ) : (
               <div className="w-9" />
@@ -134,15 +134,15 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                   key={s}
                   className={cn(
                     'h-1.5 rounded-full transition-all duration-200',
-                    s < state.step ? 'w-6 bg-violet-300' :
-                    s === state.step ? 'w-8 bg-violet-600' :
-                    'w-4 bg-slate-200'
+                    s < state.step ? 'w-6 bg-white/40' :
+                    s === state.step ? 'w-8 bg-white' :
+                    'w-4 bg-hairline-mid'
                   )}
                 />
               ))}
             </div>
-            <button onClick={handleClose} className="p-2 -mr-2 rounded-full hover:bg-slate-100" aria-label="Close">
-              <X className="w-5 h-5 text-slate-600" />
+            <button onClick={handleClose} className="p-2 -mr-2 rounded-full hover:bg-canvas-softer" aria-label="Close">
+              <X className="w-5 h-5 text-body" />
             </button>
           </div>
         </div>
@@ -151,11 +151,11 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
           {/* Step 1 */}
           {state.step === 1 && (
             <div className="space-y-5">
-              <h2 className="text-lg font-bold text-slate-900">When & what?</h2>
+              <h2 className="text-lg font-bold text-ink">When & what?</h2>
               
               {/* Activity Selector */}
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">Activity</label>
+                <label className="text-sm font-medium text-body mb-2 block">Activity</label>
                 <div className="grid grid-cols-2 gap-2">
                   {(Object.keys(getActivityInfo) as ActivityType[]).map((activity) => {
                     const info = getActivityInfo(activity);
@@ -168,10 +168,10 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                         className={cn(
                           'rounded-2xl p-4 min-h-[80px] flex flex-col items-center justify-center gap-1 transition-all duration-200 border-2',
                           state.activity === activity
-                            ? 'bg-violet-600 text-white border-violet-600'
+                            ? 'bg-white text-black border-white'
                             : available
-                              ? 'bg-slate-50 text-slate-700 border-slate-200 hover:border-violet-300'
-                              : 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed opacity-50'
+                              ? 'bg-canvas-softer text-body border-hairline-mid hover:border-white'
+                              : 'bg-canvas-softer text-mute border-hairline-mid cursor-not-allowed opacity-50'
                         )}
                         type="button"
                       >
@@ -185,7 +185,7 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
 
               {/* Date Selector */}
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">Date</label>
+                <label className="text-sm font-medium text-body mb-2 block">Date</label>
                 <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
                   {nextDays.map((d) => (
                     <button
@@ -194,8 +194,8 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                       className={cn(
                         'flex-shrink-0 rounded-xl px-3 py-2 flex flex-col items-center min-w-[56px] transition-all duration-200 border-2',
                         state.date === d.fullDate
-                          ? 'bg-violet-600 text-white border-violet-600'
-                          : 'bg-white text-slate-700 border-slate-200 hover:border-violet-300'
+                          ? 'bg-white text-black border-white'
+                          : 'bg-canvas-softer text-body border-hairline-mid hover:border-white'
                       )}
                       type="button"
                     >
@@ -208,7 +208,7 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
 
               {/* Time Slots */}
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">Time</label>
+                <label className="text-sm font-medium text-body mb-2 block">Time</label>
                 <div className="grid grid-cols-4 gap-2">
                   {timeSlots.map((time) => (
                     <button
@@ -217,8 +217,8 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                       className={cn(
                         'rounded-xl py-2 text-xs font-medium transition-all duration-200 border-2',
                         state.startTime === time
-                          ? 'bg-violet-600 text-white border-violet-600'
-                          : 'bg-slate-100 text-slate-700 border-slate-100 hover:border-violet-300'
+                          ? 'bg-white text-black border-white'
+                          : 'bg-canvas-softer text-body border-hairline-mid hover:border-white'
                       )}
                       type="button"
                     >
@@ -243,11 +243,11 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
           {/* Step 2 */}
           {state.step === 2 && (
             <div className="space-y-5">
-              <h2 className="text-lg font-bold text-slate-900">How long & where?</h2>
+              <h2 className="text-lg font-bold text-ink">How long & where?</h2>
 
               {/* Duration Selector */}
               <div>
-                <label className="text-sm font-medium text-slate-700 mb-2 block">Duration</label>
+                <label className="text-sm font-medium text-body mb-2 block">Duration</label>
                 <div className="grid grid-cols-4 gap-2">
                   {[1, 2, 3, 4].map((d) => (
                     <button
@@ -256,13 +256,13 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                       className={cn(
                         'rounded-2xl p-3 flex flex-col items-center gap-0.5 transition-all duration-200 border-2',
                         state.duration === d
-                          ? 'bg-violet-50 border-violet-600 text-violet-700'
-                          : 'bg-white border-slate-200 text-slate-700 hover:border-violet-300'
+                          ? 'bg-canvas-softer border-white text-ink'
+                          : 'bg-canvas-softer border-hairline-mid text-body hover:border-white'
                       )}
                       type="button"
                     >
                       <span className="text-sm font-bold">{d}hr{d > 1 ? 's' : ''}</span>
-                      <span className="text-xs text-slate-500">{formatCurrency(partner.hourlyRate * d)}</span>
+                      <span className="text-xs text-body">{formatCurrency(partner.hourlyRate * d)}</span>
                     </button>
                   ))}
                 </div>
@@ -270,7 +270,7 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
 
               {/* Meeting Point */}
               <div>
-                <label htmlFor="meetingPoint" className="text-sm font-medium text-slate-700 mb-1.5 block">
+                <label htmlFor="meetingPoint" className="text-sm font-medium text-body mb-1.5 block">
                   <MapPin className="w-4 h-4 inline mr-1" />
                   Where to meet?
                 </label>
@@ -280,14 +280,14 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                   value={state.meetingPoint}
                   onChange={(e) => dispatch({ type: 'SET_MEETING_POINT', payload: e.target.value })}
                   placeholder="e.g. Inorbit Mall Gate 3, Mumbai"
-                  className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm transition-colors duration-200 placeholder:text-slate-400 focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100"
+                  className="w-full rounded-xl border-2 border-hairline-mid bg-canvas-softer px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-mute focus:border-white focus:outline-none focus:ring-2 focus:ring-white/10"
                 />
                 <div className="flex gap-2 mt-2">
                   {SUGGESTIONS.map((s) => (
                     <button
                       key={s}
                       onClick={() => dispatch({ type: 'SET_MEETING_POINT', payload: s })}
-                      className="bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-600 hover:bg-violet-100 hover:text-violet-700 transition-colors"
+                      className="bg-canvas-softer rounded-full px-3 py-1 text-xs text-body hover:bg-white hover:text-black transition-colors"
                       type="button"
                     >
                       {s}
@@ -311,9 +311,9 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
           {/* Step 3 */}
           {state.step === 3 && !state.isConfirmed && (
             <div className="space-y-5">
-              <h2 className="text-lg font-bold text-slate-900">Confirm booking</h2>
+              <h2 className="text-lg font-bold text-ink">Confirm booking</h2>
               
-              <div className="bg-slate-50 rounded-2xl p-4 space-y-3">
+              <div className="bg-canvas-softer rounded-2xl p-4 space-y-3">
                 <div className="flex items-center gap-3">
                   <Avatar src={partner.avatar} alt={partner.name} size="md" />
                   <div>
@@ -325,45 +325,45 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
                 </div>
 
                 <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-slate-600">
+                  <div className="flex items-center gap-2 text-body">
                     <span>{getActivityInfo(state.activity!).icon}</span>
                     <span>{getActivityInfo(state.activity!).label}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-600">
+                  <div className="flex items-center gap-2 text-body">
                     <Clock className="w-4 h-4" />
                     <span>{formatDate(state.date)} • {formatTime(state.startTime)}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-600">
+                  <div className="flex items-center gap-2 text-body">
                     <span className="text-sm">⏱</span>
                     <span>{state.duration} hour{state.duration > 1 ? 's' : ''}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-600">
+                  <div className="flex items-center gap-2 text-body">
                     <MapPin className="w-4 h-4" />
                     <span>{state.meetingPoint}</span>
                   </div>
                 </div>
 
-                <div className="border-t border-slate-200 pt-3 space-y-1.5 text-sm">
-                  <div className="flex justify-between text-slate-600">
+                <div className="border-t border-hairline-mid pt-3 space-y-1.5 text-sm">
+                  <div className="flex justify-between text-body">
                     <span>Partner fee: {formatCurrency(partner.hourlyRate)} × {state.duration}hrs</span>
                     <span>{formatCurrency(subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-body">
                     <span>Platform fee (10%)</span>
                     <span>{formatCurrency(platformFee)}</span>
                   </div>
                   <div className="flex justify-between font-bold text-base pt-1">
                     <span>Total</span>
-                    <span className="text-violet-600">{formatCurrency(total)}</span>
+                    <span className="text-white">{formatCurrency(total)}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-body">
                 <CreditCard className="w-4 h-4" />
                 <span>Payment collected after session</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-body">
                 <Shield className="w-4 h-4" />
                 <span>Your safety is our priority. SOS button available during session.</span>
               </div>
@@ -383,12 +383,12 @@ export default function BookingSheet({ partner, isOpen, onClose, onConfirm }: Bo
           {/* Success State */}
           {state.isConfirmed && (
             <div className="py-8 flex flex-col items-center text-center space-y-4">
-              <div className="w-20 h-20 rounded-full bg-violet-600 flex items-center justify-center animate-scale-in">
-                <Check className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center animate-scale-in">
+                <Check className="w-10 h-10 text-black" />
               </div>
-              <h2 className="text-xl font-bold text-slate-900">Booking Confirmed!</h2>
-              <p className="text-slate-500">{partner.name} has been notified</p>
-              <p className="text-xs text-slate-400">Booking ref: #{state.bookingRef}</p>
+              <h2 className="text-xl font-bold text-ink">Booking Confirmed!</h2>
+              <p className="text-body">{partner.name} has been notified</p>
+              <p className="text-xs text-mute">Booking ref: #{state.bookingRef}</p>
               <Button
                 variant="primary"
                 size="lg"
