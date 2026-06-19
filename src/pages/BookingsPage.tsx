@@ -184,19 +184,19 @@ export default function BookingsPage() {
   return (
     <div className="min-h-screen">
       <div className="px-5 pt-6 pb-0">
-        <h1 className="text-2xl font-bold text-slate-900">My Bookings</h1>
+        <h1 className="text-2xl font-bold text-ink">My Bookings</h1>
       </div>
 
       {/* Tabs */}
-      <div className="px-5 pt-3 flex border-b border-slate-200">
+      <div className="px-5 pt-3 flex border-b border-hairline-mid">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`flex-1 pb-3 text-sm font-medium text-center border-b-2 transition-colors ${
               activeTab === tab.key
-                ? 'border-violet-600 text-violet-600'
-                : 'border-transparent text-slate-400 hover:text-slate-600'
+                ? 'border-white text-ink'
+                : 'border-transparent text-body hover:text-body'
             }`}
             type="button"
           >
