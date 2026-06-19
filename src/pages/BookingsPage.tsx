@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, MapPin, AlertCircle } from 'lucide-react';
 import { Avatar, Badge, Button } from '@/components/ui';
 import { EmptyState, ReviewModal } from '@/components/Shared';
-import { getUserBookings } from '@/lib/mock-data/bookings';
+import { useBookings } from '@/lib/hooks/useBookings';
 import { formatDate, formatTime, getActivityInfo } from '@/lib/utils';
 import { appToast } from '@/lib/toast';
 import type { Booking, Partner, BookingStatus } from '@/lib/types';
@@ -49,7 +49,7 @@ function BookingCard({ booking, onReview, onCancel }: BookingCardProps) {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-3">
+      <div className="bg-canvas-soft rounded-2xl border border-hairline-mid p-4 mb-3">
         <div className="flex items-center gap-3 mb-2">
           {partner && <Avatar src={partner.avatar} alt={partner.name} size="md" />}
           <div className="flex-1 min-w-0">
@@ -57,11 +57,11 @@ function BookingCard({ booking, onReview, onCancel }: BookingCardProps) {
               <span className="font-semibold text-sm truncate">{partner?.name || 'Unknown'}</span>
               <Badge variant={config.variant}>{config.label}</Badge>
             </div>
-            <span className="text-xs text-slate-500">{activityInfo.icon} {activityInfo.label}</span>
+            <span className="text-xs text-body">{activityInfo.icon} {activityInfo.label}</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 text-xs text-slate-600 mb-2">
+        <div className="flex flex-wrap gap-3 text-xs text-body mb-2">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
             {formatDate(booking.date)}
@@ -75,20 +75,20 @@ function BookingCard({ booking, onReview, onCancel }: BookingCardProps) {
           </span>
         </div>
 
-        <div className="flex items-center gap-1 text-xs text-slate-500 mb-2">
+        <div className="flex items-center gap-1 text-xs text-body mb-2">
           <MapPin className="w-3 h-3 flex-shrink-0" />
           <span className="truncate">{booking.meetingPoint}</span>
         </div>
 
         {booking.cancelReason && (
-          <div className="flex items-start gap-1 text-xs text-slate-400 mb-2">
+          <div className="flex items-start gap-1 text-xs text-body mb-2">
             <AlertCircle className="w-3 h-3 flex-shrink-0 mt-0.5" />
             <span>{booking.cancelReason}</span>
           </div>
         )}
 
-        <div className="border-t border-slate-100 pt-2 flex items-center justify-between">
-          <span className="text-xs text-slate-400">#{booking.id.replace('b-', 'REF').toUpperCase()}</span>
+        <div className="border-t border-hairline-mid pt-2 flex items-center justify-between">
+          <span className="text-xs text-mute">#{booking.id.replace('b-', 'REF').toUpperCase()}</span>
           <div className="flex items-center gap-2">
             {(booking.status === 'confirmed' || booking.status === 'pending') && (
               <>
@@ -104,8 +104,8 @@ function BookingCard({ booking, onReview, onCancel }: BookingCardProps) {
             )}
             {booking.status === 'active' && (
               <>
-                <button className="text-red-500 text-xs font-semibold bg-red-50 rounded-full px-3 py-1 hover:bg-red-100 transition-colors">🆘 SOS</button>
-                <span className="text-green-600 text-xs font-medium">In progress...</span>
+                <button className="text-red-500 text-xs font-semibold bg-red-900/30 rounded-full px-3 py-1 hover:bg-red-900/50 transition-colors">🆘 SOS</button>
+                <span className="text-green-400 text-xs font-medium">In progress...</span>
               </>
             )}
             {booking.status === 'completed' && partner && (
@@ -125,12 +125,12 @@ function BookingCard({ booking, onReview, onCancel }: BookingCardProps) {
       {showCancelConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={() => setShowCancelConfirm(false)} />
-          <div className="relative bg-white rounded-3xl p-6 max-w-xs w-full animate-scale-in z-10 text-center">
-            <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-3">
+          <div className="relative bg-canvas-soft rounded-3xl p-6 max-w-xs w-full animate-scale-in z-10 text-center border border-hairline-mid">
+            <div className="w-14 h-14 rounded-full bg-red-900/30 flex items-center justify-center mx-auto mb-3">
               <AlertCircle className="w-7 h-7 text-red-500" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 mb-1">Cancel Booking?</h3>
-            <p className="text-sm text-slate-500 mb-5">
+            <h3 className="text-lg font-bold text-ink mb-1">Cancel Booking?</h3>
+            <p className="text-sm text-body mb-5">
               Your meeting with {partner?.name || 'this companion'} will be cancelled. This action cannot be undone.
             </p>
             <div className="flex gap-3">
@@ -158,15 +158,11 @@ export default function BookingsPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('upcoming');
   const [reviewPartner, setReviewPartner] = useState<Partner | null>(null);
 
-  // Manage bookings state locally so we can cancel them
-  const [bookings, setBookings] = useState<Booking[]>(() => getUserBookings());
+  // Use the shared bookings hook for reactive state
+  const { bookings, cancelBooking } = useBookings();
 
   const handleCancel = (bookingId: string) => {
-    setBookings(prev =>
-      prev.map(b =>
-        b.id === bookingId ? { ...b, status: 'cancelled' as BookingStatus, cancelReason: 'Cancelled by user' } : b
-      )
-    );
+    cancelBooking(bookingId);
     appToast.success('Booking cancelled');
   };
 
