@@ -98,7 +98,7 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
             <span className="text-white font-bold text-xs">{formatCurrency(partner.hourlyRate)}/hr</span>
             <button
               onClick={handleScheduleClick}
-              className="flex items-center gap-1 bg-white text-black rounded-full text-[10px] px-2.5 py-1 font-semibold hover:bg-white/90 transition-colors md:opacity-0 md:group-hover:opacity-100 min-h-[28px]"
+              className="flex items-center gap-1 bg-white text-black rounded-full text-[10px] px-2.5 py-1 font-semibold hover:bg-white/90 transition-colors min-h-[28px]"
               aria-label={`Schedule meeting with ${partner.name}`}
             >
               <Calendar className="w-3 h-3" />
