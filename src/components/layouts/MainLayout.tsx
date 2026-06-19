@@ -24,12 +24,12 @@ export default function MainLayout() {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-canvas text-ink">
       {showLoading && <LoadingBar />}
       
       <div className="flex">
         {/* Desktop Sidebar */}
-        <nav className="hidden md:flex flex-col w-16 lg:w-20 bg-white border-r border-slate-200 min-h-screen fixed left-0 top-0 z-40 py-4" aria-label="Main navigation">
+        <nav className="hidden md:flex flex-col w-16 lg:w-20 bg-canvas-soft border-r border-hairline-mid min-h-screen fixed left-0 top-0 z-40 py-4" aria-label="Main navigation">
           <div className="flex-1 flex flex-col items-center gap-1 pt-4">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
@@ -38,10 +38,10 @@ export default function MainLayout() {
                   key={item.path}
                   onClick={() => navigate(item.path)}
                   className={cn(
-                    'flex flex-col items-center justify-center w-12 h-12 rounded-xl transition-all duration-200',
+                    'flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-200',
                     isActive
-                      ? 'text-violet-600 bg-violet-50'
-                      : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'
+                      ? 'text-white bg-white/20'
+                      : 'text-body hover:text-ink hover:bg-surface-pressed'
                   )}
                   aria-label={item.label}
                   aria-current={isActive ? 'page' : undefined}
@@ -64,7 +64,7 @@ export default function MainLayout() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 pb-safe" aria-label="Main navigation">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-canvas-soft border-t border-hairline-mid z-40 pb-safe" aria-label="Main navigation">
         <div className="flex items-center justify-around">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
@@ -74,7 +74,7 @@ export default function MainLayout() {
                 onClick={() => navigate(item.path)}
                 className={cn(
                   'flex flex-col items-center justify-center min-h-[48px] px-4 py-2 transition-all duration-200 relative',
-                  isActive ? 'text-violet-600' : 'text-slate-400'
+                  isActive ? 'text-white' : 'text-body'
                 )}
                 aria-label={item.label}
                 aria-current={isActive ? 'page' : undefined}
@@ -82,7 +82,7 @@ export default function MainLayout() {
                 <item.icon className="w-5 h-5" />
                 <span className="text-[10px] font-medium mt-0.5">{item.label}</span>
                 {isActive && (
-                  <div className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-violet-600" />
+                  <div className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-white" />
                 )}
               </button>
             );

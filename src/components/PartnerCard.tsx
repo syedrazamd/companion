@@ -28,7 +28,7 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
   return (
     <>
       <div
-        className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all duration-200 md:hover:shadow-xl md:hover:-translate-y-1 cursor-pointer"
+        className="group bg-canvas-soft rounded-xl border border-hairline-mid overflow-hidden transition-all duration-200 md:hover:shadow-xl md:hover:-translate-y-1 cursor-pointer"
         onClick={handleClick}
         role="button"
         tabIndex={0}
@@ -43,18 +43,18 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
           />
           <div className="absolute top-2 left-2">
             {partner.isOnline ? (
-              <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-green-700">
+              <span className="inline-flex items-center gap-1 bg-black/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-white">
                 🟢 Online
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-slate-500">
+              <span className="inline-flex items-center gap-1 bg-black/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-[10px] font-medium text-body">
                 ⚫ Offline
               </span>
             )}
           </div>
           {partner.isVerified && (
             <div className="absolute top-2 right-2">
-              <Badge variant="primary" className="bg-violet-600 text-white text-[10px]">
+              <Badge variant="primary" className="bg-white text-black text-[10px] rounded-full">
                 ✓ Verified
               </Badge>
             </div>
@@ -62,19 +62,19 @@ export const PartnerCard = React.memo(function PartnerCard({ partner }: PartnerC
         </div>
         <div className="p-2.5">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-sm truncate">{partner.name}</h3>
-            <span className="text-slate-400 text-xs">{partner.age}y</span>
+            <h3 className="font-semibold text-sm truncate text-ink">{partner.name}</h3>
+            <span className="text-body text-xs">{partner.age}y</span>
           </div>
           <div className="flex items-center gap-1 mt-0.5">
-            <Star className="w-3 h-3 fill-violet-600 text-violet-600" />
-            <span className="text-xs font-medium text-slate-700">{partner.rating}</span>
-            <span className="text-[10px] text-slate-400">({partner.reviewCount})</span>
+            <Star className="w-3 h-3 fill-white text-white" />
+            <span className="text-xs font-medium text-ink">{partner.rating}</span>
+            <span className="text-[10px] text-body">({partner.reviewCount})</span>
           </div>
           <div className="flex items-center justify-between mt-1.5">
-            <span className="text-violet-600 font-bold text-xs">{formatCurrency(partner.hourlyRate)}/hr</span>
+            <span className="text-white font-bold text-xs">{formatCurrency(partner.hourlyRate)}/hr</span>
             <button
               onClick={handleScheduleClick}
-              className="flex items-center gap-1 bg-violet-600 text-white rounded-full text-[10px] px-2.5 py-1 font-semibold hover:bg-violet-700 transition-colors md:opacity-0 md:group-hover:opacity-100 min-h-[28px]"
+              className="flex items-center gap-1 bg-white text-black rounded-full text-[10px] px-2.5 py-1 font-semibold hover:bg-white/90 transition-colors md:opacity-0 md:group-hover:opacity-100 min-h-[28px]"
               aria-label={`Schedule meeting with ${partner.name}`}
             >
               <Calendar className="w-3 h-3" />
@@ -103,7 +103,7 @@ export const FeaturedPartnerCard = React.memo(function FeaturedPartnerCard({ par
 
   return (
     <div
-      className="flex-shrink-0 w-[160px] bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg"
+      className="flex-shrink-0 w-[160px] bg-canvas-soft rounded-xl border border-hairline-mid overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg"
       onClick={() => navigate(`/partner/${partner.id}`)}
       role="button"
       tabIndex={0}
@@ -118,19 +118,19 @@ export const FeaturedPartnerCard = React.memo(function FeaturedPartnerCard({ par
         />
         {partner.isVerified && (
           <div className="absolute top-2 right-2">
-            <Badge variant="primary" className="bg-violet-600 text-white text-[10px]">
+            <Badge variant="primary" className="bg-white text-black text-[10px] rounded-full">
               ✓
             </Badge>
           </div>
         )}
       </div>
       <div className="p-2.5">
-        <h3 className="font-semibold text-sm truncate">{partner.name}</h3>
+        <h3 className="font-semibold text-sm truncate text-ink">{partner.name}</h3>
         <div className="flex items-center gap-1 mt-0.5">
-          <Star className="w-3 h-3 fill-violet-600 text-violet-600" />
-          <span className="text-xs font-medium">{partner.rating}</span>
+          <Star className="w-3 h-3 fill-white text-white" />
+          <span className="text-xs font-medium text-ink">{partner.rating}</span>
         </div>
-        <span className="text-violet-600 font-bold text-xs mt-1 block">{formatCurrency(partner.hourlyRate)}/hr</span>
+        <span className="text-white font-bold text-xs mt-1 block">{formatCurrency(partner.hourlyRate)}/hr</span>
       </div>
     </div>
   );
@@ -139,7 +139,7 @@ export const FeaturedPartnerCard = React.memo(function FeaturedPartnerCard({ par
 // PartnerCardSkeleton Component
 export function PartnerCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div className="bg-canvas-soft rounded-xl border border-hairline-mid overflow-hidden">
       <Skeleton className="aspect-square w-full rounded-none" />
       <div className="p-2.5 space-y-1.5">
         <div className="flex justify-between">
@@ -161,7 +161,7 @@ export function PartnerProfileSkeleton() {
   return (
     <div className="max-w-lg mx-auto">
       <Skeleton className="w-full aspect-[4/3] rounded-none" />
-      <div className="bg-white rounded-t-3xl -mt-6 relative z-10 px-5 pt-6 pb-4 space-y-4">
+      <div className="bg-canvas-soft rounded-t-3xl -mt-6 relative z-10 px-5 pt-6 pb-4 space-y-4">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-5 w-40" />
@@ -174,7 +174,7 @@ export function PartnerProfileSkeleton() {
 // BookingCardSkeleton Component
 export function BookingCardSkeleton() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 space-y-3">
+    <div className="bg-canvas-soft rounded-xl border border-hairline-mid shadow-sm p-4 space-y-3">
       <div className="flex items-center gap-3">
         <Skeleton className="w-12 h-12 rounded-full" />
         <Skeleton className="h-5 w-32" />
@@ -202,8 +202,8 @@ export function ActivityTag({ activity, selected, onClick, size = 'sm' }: Activi
         'inline-flex items-center rounded-full border font-medium transition-all duration-200',
         size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-4 py-2 text-sm',
         selected
-          ? 'bg-violet-600 text-white border-violet-600'
-          : 'bg-white text-slate-600 border-slate-200 hover:border-violet-300',
+          ? 'bg-white text-black border-white'
+          : 'bg-canvas-soft text-body border-hairline-mid hover:border-white',
         onClick && 'cursor-pointer'
       )}
       type="button"

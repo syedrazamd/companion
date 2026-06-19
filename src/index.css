@@ -1,12 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-primary: #7C3AED;
-  --color-primary-light: #8B5CF6;
-  --color-primary-dark: #6D28D9;
-  --color-secondary: #0EA5E9;
-  --color-secondary-light: #38BDF8;
+  --font-sans: "UberMoveText", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "UberMove", "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Uber Design System Colors - Dark Theme */
+  --color-ink: #ffffff;
+  --color-body: #b8b8b8;
+  --color-mute: #6e6e6e;
+  --color-hairline-mid: #4b4b4b;
+  --color-canvas: #000000;
+  --color-canvas-soft: #1a1a1a;
+  --color-canvas-softer: #282828;
+  --color-surface-pressed: #3a3a3a;
+  --color-white: #ffffff;
+  --color-black-elevated: #282828;
 }
 
 html {
@@ -15,9 +23,18 @@ html {
 }
 
 body {
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family: "UberMoveText", "Inter", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Display typography for headlines */
+.font-display {
+  font-family: "UberMove", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 /* Custom scrollbar */
@@ -31,12 +48,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #7C3AED;
+  background: #ffffff;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6D28D9;
+  background: #b8b8b8;
 }
 
 /* Hide scrollbar for horizontal scroll areas */
@@ -157,7 +174,7 @@ input[type="range"] {
   appearance: none;
   height: 6px;
   border-radius: 999px;
-  background: #e2e8f0;
+  background: #3a3a3a;
   outline: none;
 }
 
@@ -167,18 +184,18 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #7C3AED;
+  background: #ffffff;
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  border: 2px solid #000000;
+  box-shadow: 0 1px 3px rgba(255,255,255,0.2);
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #7C3AED;
+  background: #ffffff;
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  border: 2px solid #000000;
+  box-shadow: 0 1px 3px rgba(255,255,255,0.2);
 }
