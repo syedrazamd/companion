@@ -33,7 +33,8 @@ function getPartnerPosition(partnerId: string, city: string) {
 }
 
 // Google Maps API key — set VITE_GOOGLE_MAPS_API_KEY in .env
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? '';
+console.log('[MapView] Google Maps API key loaded:', GOOGLE_MAPS_API_KEY ? `✓ (${GOOGLE_MAPS_API_KEY.slice(0, 10)}...)` : '✗ MISSING — check .env and restart dev server');
 
 interface MapViewProps {
   selectedCity: string;
