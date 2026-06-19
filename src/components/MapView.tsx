@@ -7,30 +7,8 @@ import {
   useMap,
 } from '@vis.gl/react-google-maps';
 import { cn } from '@/utils/cn';
+import { distanceKm } from '@/lib/utils';
 import type { Partner } from '@/lib/types';
-
-// City coordinates for map centering
-export const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
-  Mumbai: { lat: 19.076, lng: 72.8777 },
-  Delhi: { lat: 28.6139, lng: 77.209 },
-  Bengaluru: { lat: 12.9716, lng: 77.5946 },
-  Pune: { lat: 18.5204, lng: 73.8567 },
-  Chennai: { lat: 13.0827, lng: 80.2707 },
-  Hyderabad: { lat: 17.385, lng: 78.4867 },
-  Jaipur: { lat: 26.9124, lng: 75.7873 },
-  Kochi: { lat: 9.9312, lng: 76.2673 },
-  Kolkata: { lat: 22.5726, lng: 88.3639 },
-  Ahmedabad: { lat: 23.0225, lng: 72.5714 },
-};
-
-// Generate pseudo-random offset for partner positions on map
-function getPartnerPosition(partnerId: string, city: string) {
-  const base = CITY_COORDS[city] || CITY_COORDS['Mumbai'];
-  const hash = partnerId.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  const latOffset = ((hash % 100) - 50) * 0.008;
-  const lngOffset = (((hash * 7) % 100) - 50) * 0.008;
-  return { lat: base.lat + latOffset, lng: base.lng + lngOffset };
-}
 
 // Google Maps API key — set VITE_GOOGLE_MAPS_API_KEY in .env
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? '';
@@ -53,19 +31,24 @@ function MapInner({
   userCoords,
 }: MapViewProps) {
   const map = useMap();
-  const cityCoords = CITY_COORDS[selectedCity] || CITY_COORDS['Mumbai'];
 
-  const onlinePartners = useMemo(
-    () => partners.filter(p => p.isOnline && p.location === selectedCity),
-    [partners, selectedCity]
-  );
+  // Filter partners to those near the user (within 50km) — same logic as search form
+  const nearbyPartners = useMemo(() => {
+    if (!userCoords) return partners.filter(p => p.isOnline);
+    return partners
+      .filter(p => p.isOnline && p.coords)
+      .filter(p => distanceKm(userCoords, p.coords) <= 50)
+      .sort((a, b) => distanceKm(userCoords, a.coords) - distanceKm(userCoords, b.coords));
+  }, [partners, userCoords]);
 
-  // Fly to city when it changes
+  // Fly to user location when available
   useEffect(() => {
     if (!map) return;
-    map.panTo(cityCoords);
-    map.setZoom(13);
-  }, [map, cityCoords]);
+    if (userCoords) {
+      map.panTo(userCoords);
+      map.setZoom(13);
+    }
+  }, [map, userCoords]);
 
   return (
     <>
@@ -80,8 +63,8 @@ function MapInner({
         </AdvancedMarker>
       )}
 
-      {/* City center marker */}
-      <AdvancedMarker position={cityCoords}>
+      {/* Location label */}
+      <AdvancedMarker position={userCoords ?? { lat: 19.076, lng: 72.8777 }}>
         <div className="flex flex-col items-center">
           <div className="bg-canvas/80 backdrop-blur-sm rounded-full px-3 py-1 border border-hairline-mid shadow-lg">
             <div className="flex items-center gap-1.5">
@@ -93,14 +76,14 @@ function MapInner({
       </AdvancedMarker>
 
       {/* Partner markers */}
-      {onlinePartners.map((partner) => {
-        const pos = getPartnerPosition(partner.id, selectedCity);
+      {nearbyPartners.map((partner) => {
+        if (!partner.coords) return null;
         const isSelected = selectedPartnerId === partner.id;
 
         return (
           <AdvancedMarker
             key={partner.id}
-            position={pos}
+            position={partner.coords}
             onClick={() => {
               onSelectPartner(isSelected ? null : partner.id);
             }}
@@ -139,11 +122,11 @@ function MapInner({
       })}
 
       {/* No partners overlay */}
-      {onlinePartners.length === 0 && (
+      {nearbyPartners.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
           <div className="text-center bg-canvas/90 backdrop-blur-sm rounded-2xl px-6 py-4 border border-hairline-mid pointer-events-auto">
-            <p className="text-body text-sm">No companions online in {selectedCity}</p>
-            <p className="text-mute text-xs mt-1">Try a different city</p>
+            <p className="text-body text-sm">No companions near {selectedCity}</p>
+            <p className="text-mute text-xs mt-1">Try expanding your search</p>
           </div>
         </div>
       )}
@@ -152,8 +135,8 @@ function MapInner({
 }
 
 export default function MapView(props: MapViewProps) {
-  const { selectedCity } = props;
-  const cityCoords = CITY_COORDS[selectedCity] || CITY_COORDS['Mumbai'];
+  const { userCoords } = props;
+  const defaultCenter = userCoords ?? { lat: 19.076, lng: 72.8777 };
 
   // If no API key, show fallback with Google Maps link
   if (!GOOGLE_MAPS_API_KEY) {
@@ -164,7 +147,7 @@ export default function MapView(props: MapViewProps) {
     <div className="relative w-full h-full overflow-hidden">
       <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
         <Map
-          defaultCenter={cityCoords}
+          defaultCenter={defaultCenter}
           defaultZoom={13}
           mapId="companion-app-map"
           gestureHandling="greedy"
@@ -184,15 +167,17 @@ export default function MapView(props: MapViewProps) {
 }
 
 // ── Fallback: simulated map + Google Maps link ──
-function MapFallback({ selectedCity, partners, selectedPartnerId, onSelectPartner }: MapViewProps) {
-  const cityCoords = CITY_COORDS[selectedCity] || CITY_COORDS['Mumbai'];
+function MapFallback({ selectedCity, partners, selectedPartnerId, onSelectPartner, userCoords }: MapViewProps) {
+  const center = userCoords ?? { lat: 19.076, lng: 72.8777 };
 
-  const onlinePartners = useMemo(
-    () => partners.filter(p => p.isOnline && p.location === selectedCity),
-    [partners, selectedCity]
-  );
+  const nearbyPartners = useMemo(() => {
+    if (!userCoords) return partners.filter(p => p.isOnline);
+    return partners
+      .filter(p => p.isOnline && p.coords)
+      .filter(p => distanceKm(userCoords, p.coords) <= 50);
+  }, [partners, userCoords]);
 
-  const googleMapsUrl = `https://www.google.com/maps/@${cityCoords.lat},${cityCoords.lng},13z`;
+  const googleMapsUrl = `https://www.google.com/maps/@${center.lat},${center.lng},13z`;
 
   return (
     <div className="relative w-full h-full bg-canvas overflow-hidden">
@@ -222,8 +207,8 @@ function MapFallback({ selectedCity, partners, selectedPartnerId, onSelectPartne
           </div>
         </div>
 
-        {onlinePartners.map((partner, idx) => {
-          const angle = (idx / Math.max(onlinePartners.length, 1)) * Math.PI * 2;
+        {nearbyPartners.map((partner, idx) => {
+          const angle = (idx / Math.max(nearbyPartners.length, 1)) * Math.PI * 2;
           const radius = 80 + (idx % 3) * 40;
           const x = 50 + Math.cos(angle) * (radius / 3);
           const y = 50 + Math.sin(angle) * (radius / 3);
@@ -263,11 +248,11 @@ function MapFallback({ selectedCity, partners, selectedPartnerId, onSelectPartne
           );
         })}
 
-        {onlinePartners.length === 0 && (
+        {nearbyPartners.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center bg-canvas/90 backdrop-blur-sm rounded-2xl px-6 py-4 border border-hairline-mid">
-              <p className="text-body text-sm">No companions online in {selectedCity}</p>
-              <p className="text-mute text-xs mt-1">Try a different city</p>
+              <p className="text-body text-sm">No companions near {selectedCity}</p>
+              <p className="text-mute text-xs mt-1">Try expanding your search</p>
             </div>
           </div>
         )}

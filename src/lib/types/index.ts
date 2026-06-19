@@ -2,7 +2,12 @@ export type ActivityType = 'mall' | 'coffee' | 'movies' | 'outdoor';
 
 export type BookingStatus = 'pending' | 'confirmed' | 'active' | 'completed' | 'cancelled';
 
-export type SortOption = 'rating' | 'price_low' | 'price_high' | 'newest';
+export type SortOption = 'rating' | 'price_low' | 'price_high' | 'newest' | 'nearest';
+
+export interface GeoCoords {
+  lat: number;
+  lng: number;
+}
 
 export interface Partner {
   id: string;
@@ -16,6 +21,7 @@ export interface Partner {
   hourlyRate: number;
   activities: ActivityType[];
   location: string;
+  coords: GeoCoords;
   isVerified: boolean;
   isOnline: boolean;
   images: string[];

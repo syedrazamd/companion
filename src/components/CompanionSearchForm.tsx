@@ -1,17 +1,14 @@
 import { useState, useMemo } from 'react';
-import { Search, MapPin, Home, Clock, Users, Coffee, Film, ShoppingBag, Trees, Star, Shield } from 'lucide-react';
+import { Search, MapPin, Home, Clock, Users, Coffee, Film, ShoppingBag, Trees, Star, Shield, Locate } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/utils/cn';
-import { formatCurrency, getActivityInfo } from '@/lib/utils';
+import { formatCurrency, getActivityInfo, distanceKm } from '@/lib/utils';
 import { getPartners } from '@/lib/mock-data/partners';
 import type { ActivityType } from '@/lib/types';
 
 const PARTNERS = getPartners();
 
-const INDIAN_CITIES = [
-  'Mumbai', 'Delhi', 'Bengaluru', 'Pune', 'Chennai',
-  'Hyderabad', 'Jaipur', 'Kochi', 'Kolkata', 'Ahmedabad',
-];
+const MAX_DISTANCE_KM = 50;
 
 const ACTIVITIES: { type: ActivityType; icon: typeof Coffee; label: string }[] = [
   { type: 'coffee', icon: Coffee, label: 'Coffee' },
@@ -38,6 +35,7 @@ interface CompanionSearchFormProps {
   onCityChange: (city: string) => void;
   onSelectPartner: (id: string | null) => void;
   selectedPartnerId: string | null;
+  userCoords?: { lat: number; lng: number } | null;
 }
 
 export default function CompanionSearchForm({
@@ -45,6 +43,7 @@ export default function CompanionSearchForm({
   onCityChange,
   onSelectPartner,
   selectedPartnerId,
+  userCoords,
 }: CompanionSearchFormProps) {
   const navigate = useNavigate();
   const [meetupType, setMeetupType] = useState<'home' | 'location'>('location');
@@ -55,7 +54,15 @@ export default function CompanionSearchForm({
   const [showResults, setShowResults] = useState(false);
 
   const filteredPartners = useMemo(() => {
-    let results = PARTNERS.filter(p => p.isOnline && p.location === selectedCity);
+    let results = PARTNERS.filter(p => p.isOnline);
+
+    // Proximity filter: only partners within MAX_DISTANCE_KM of user
+    if (userCoords) {
+      results = results.filter(p => {
+        if (!p.coords) return false;
+        return distanceKm(userCoords, p.coords) <= MAX_DISTANCE_KM;
+      });
+    }
 
     if (selectedActivity) {
       results = results.filter(p => p.activities.includes(selectedActivity));
@@ -65,8 +72,16 @@ export default function CompanionSearchForm({
       results = results.filter(p => p.gender === gender);
     }
 
+    // Sort by distance (nearest first)
+    if (userCoords) {
+      results = [...results].sort((a, b) => {
+        if (!a.coords || !b.coords) return 0;
+        return distanceKm(userCoords, a.coords) - distanceKm(userCoords, b.coords);
+      });
+    }
+
     return results;
-  }, [selectedCity, selectedActivity, gender]);
+  }, [userCoords, selectedActivity, gender]);
 
   const handleSearch = () => {
     setShowResults(true);
@@ -88,26 +103,15 @@ export default function CompanionSearchForm({
         <h2 className="text-base sm:text-lg font-semibold text-white">Find a companion</h2>
       </div>
 
-      {/* City Selector */}
-      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto hide-scrollbar pb-1 -mx-1 px-1">
-        {INDIAN_CITIES.map(city => (
-          <button
-            key={city}
-            onClick={() => {
-              onCityChange(city);
-              setShowResults(false);
-              onSelectPartner(null);
-            }}
-            className={cn(
-              'flex-shrink-0 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200',
-              selectedCity === city
-                ? 'bg-white text-black'
-                : 'bg-canvas-softer text-body hover:bg-surface-pressed hover:text-white'
-            )}
-          >
-            {city}
-          </button>
-        ))}
+      {/* Your Location */}
+      <div className="flex items-center gap-2 bg-canvas-softer rounded-full px-3 py-1.5 sm:py-2 border border-hairline-mid">
+        <Locate className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 flex-shrink-0" />
+        <span className="text-xs sm:text-sm text-body truncate">
+          {userCoords ? `Near ${selectedCity}` : 'Location not set'}
+        </span>
+        <span className="text-[10px] sm:text-xs text-mute ml-auto flex-shrink-0">
+          {userCoords ? `within ${MAX_DISTANCE_KM}km` : ''}
+        </span>
       </div>
 
       {/* Meetup Point */}
@@ -146,7 +150,7 @@ export default function CompanionSearchForm({
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-mute" />
             <input
               type="text"
-              placeholder={`Meetup location in ${selectedCity}…`}
+              placeholder={`Meetup location near ${selectedCity}…`}
               value={meetupAddress}
               onChange={e => setMeetupAddress(e.target.value)}
               className="w-full bg-canvas-softer border border-hairline-mid rounded-xl py-2 sm:py-2.5 pl-9 sm:pl-10 pr-3 sm:pr-4 text-xs sm:text-sm text-white placeholder:text-mute focus:outline-none focus:border-white/40 transition-colors"
@@ -289,7 +293,13 @@ export default function CompanionSearchForm({
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1">
                       <span className="text-[10px] sm:text-xs font-semibold text-white">{formatCurrency(partner.hourlyRate)}/hr</span>
-                      <span className="text-[10px] sm:text-xs text-mute">· {partner.location}</span>
+                      {userCoords && partner.coords ? (
+                        <span className="text-[10px] sm:text-xs text-mute">
+                          · {distanceKm(userCoords, partner.coords).toFixed(1)} km away
+                        </span>
+                      ) : (
+                        <span className="text-[10px] sm:text-xs text-mute">· {partner.location}</span>
+                      )}
                     </div>
                   </div>
                   <button

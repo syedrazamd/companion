@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { PartnerCard } from '@/components/PartnerCard';
 import { EmptyState } from '@/components/Shared';
 import FilterSheet from '@/components/FilterSheet';
 import { usePartnerFilters } from '@/lib/hooks/usePartnerFilters';
 import { getPartners } from '@/lib/mock-data/partners';
+import { reverseGeocode } from '@/lib/utils';
 import { cn } from '@/utils/cn';
-import type { SortOption } from '@/lib/types';
+import type { SortOption, GeoCoords } from '@/lib/types';
 
 const PARTNERS = getPartners();
 
@@ -15,10 +16,23 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: 'price_low', label: 'Price: Low to high' },
   { value: 'price_high', label: 'Price: High to low' },
   { value: 'newest', label: 'Newest' },
+  { value: 'nearest', label: 'Nearest to me' },
 ];
 
 export default function ExplorePage() {
-  const { filteredPartners, filters, setFilters, searchQuery, setSearchQuery, activeFilterCount, resetFilters } = usePartnerFilters(PARTNERS);
+  const [userCoords, setUserCoords] = useState<GeoCoords | null>(null);
+
+  // Try to grab location on mount (silently — no permission UI here)
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => { /* ignore — sort by rating */ },
+      { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
+    );
+  }, []);
+
+  const { filteredPartners, filters, setFilters, searchQuery, setSearchQuery, activeFilterCount, resetFilters } = usePartnerFilters(PARTNERS, userCoords);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (

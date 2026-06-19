@@ -13,6 +13,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 800,
     activities: ['coffee', 'mall'],
     location: 'Mumbai',
+    coords: { lat: 19.0596, lng: 72.8295 },
     isVerified: true,
     isOnline: true,
     images: [
@@ -36,6 +37,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 600,
     activities: ['mall', 'movies', 'outdoor'],
     location: 'Delhi',
+    coords: { lat: 28.6304, lng: 77.2177 },
     isVerified: true,
     isOnline: true,
     images: [
@@ -58,6 +60,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 700,
     activities: ['coffee', 'outdoor', 'mall'],
     location: 'Bengaluru',
+    coords: { lat: 12.9344, lng: 77.6101 },
     isVerified: true,
     isOnline: false,
     images: [
@@ -82,6 +85,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 500,
     activities: ['outdoor', 'movies'],
     location: 'Pune',
+    coords: { lat: 18.5167, lng: 73.8563 },
     isVerified: false,
     isOnline: true,
     images: [
@@ -104,6 +108,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 550,
     activities: ['mall', 'coffee', 'movies'],
     location: 'Chennai',
+    coords: { lat: 13.0674, lng: 80.2376 },
     isVerified: true,
     isOnline: false,
     images: [
@@ -127,6 +132,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 450,
     activities: ['outdoor', 'movies', 'mall'],
     location: 'Mumbai',
+    coords: { lat: 19.1136, lng: 72.8697 },
     isVerified: false,
     isOnline: true,
     images: [
@@ -149,6 +155,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 750,
     activities: ['coffee', 'mall'],
     location: 'Kochi',
+    coords: { lat: 9.9685, lng: 76.2842 },
     isVerified: true,
     isOnline: true,
     images: [
@@ -172,6 +179,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 500,
     activities: ['movies', 'mall', 'outdoor'],
     location: 'Hyderabad',
+    coords: { lat: 17.4065, lng: 78.4772 },
     isVerified: true,
     isOnline: false,
     images: [
@@ -194,6 +202,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 400,
     activities: ['coffee', 'mall', 'outdoor'],
     location: 'Bengaluru',
+    coords: { lat: 12.9719, lng: 77.5937 },
     isVerified: true,
     isOnline: true,
     images: [
@@ -217,6 +226,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 1500,
     activities: ['mall', 'coffee'],
     location: 'Delhi',
+    coords: { lat: 28.5800, lng: 77.1950 },
     isVerified: true,
     isOnline: false,
     images: [
@@ -240,6 +250,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 600,
     activities: ['outdoor', 'mall', 'movies'],
     location: 'Jaipur',
+    coords: { lat: 26.9155, lng: 75.8190 },
     isVerified: false,
     isOnline: true,
     images: [
@@ -262,6 +273,7 @@ export const MOCK_PARTNERS: Partner[] = [
     hourlyRate: 350,
     activities: ['coffee', 'mall', 'outdoor'],
     location: 'Pune',
+    coords: { lat: 18.5083, lng: 73.8250 },
     isVerified: false,
     isOnline: false,
     images: [

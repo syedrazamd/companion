@@ -1,8 +1,9 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { Partner, FilterState } from '@/lib/types';
+import type { Partner, FilterState, GeoCoords } from '@/lib/types';
 import { DEFAULT_FILTERS } from '@/lib/types';
+import { distanceKm } from '@/lib/utils';
 
-export function usePartnerFilters(partners: Partner[]) {
+export function usePartnerFilters(partners: Partner[], userCoords?: GeoCoords | null) {
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -27,9 +28,13 @@ export function usePartnerFilters(partners: Partner[]) {
         if (filters.sortBy === 'rating') return b.rating - a.rating;
         if (filters.sortBy === 'price_low') return a.hourlyRate - b.hourlyRate;
         if (filters.sortBy === 'price_high') return b.hourlyRate - a.hourlyRate;
+        if (filters.sortBy === 'nearest' && userCoords) {
+          if (!a.coords || !b.coords) return 0;
+          return distanceKm(userCoords, a.coords) - distanceKm(userCoords, b.coords);
+        }
         return 0;
       });
-  }, [partners, filters, searchQuery]);
+  }, [partners, filters, searchQuery, userCoords]);
 
   const activeFilterCount = useMemo(() => {
     let count = 0;

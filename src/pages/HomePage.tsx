@@ -2,31 +2,19 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { Bell, MapPin, Navigation, Locate, Loader2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@/components/ui';
-import MapView, { CITY_COORDS } from '@/components/MapView';
+import MapView from '@/components/MapView';
 import DraggableBottomSheet from '@/components/DraggableBottomSheet';
 import CompanionSearchForm from '@/components/CompanionSearchForm';
 import { getPartners } from '@/lib/mock-data/partners';
+import { reverseGeocode } from '@/lib/utils';
 
 const PARTNERS = getPartners();
 
 type LocationStatus = 'requesting' | 'granted' | 'denied' | 'unavailable';
 
-function findNearestCity(lat: number, lng: number): string {
-  let nearest = 'Mumbai';
-  let minDist = Infinity;
-  for (const [city, coords] of Object.entries(CITY_COORDS)) {
-    const d = Math.sqrt((coords.lat - lat) ** 2 + (coords.lng - lng) ** 2);
-    if (d < minDist) {
-      minDist = d;
-      nearest = city;
-    }
-  }
-  return nearest;
-}
-
 export default function HomePage() {
   const navigate = useNavigate();
-  const [selectedCity, setSelectedCity] = useState('Mumbai');
+  const [selectedCity, setSelectedCity] = useState('Detecting…');
   const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
 
@@ -43,11 +31,12 @@ export default function HomePage() {
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const { latitude, longitude } = position.coords;
         setUserCoords({ lat: latitude, lng: longitude });
-        const city = findNearestCity(latitude, longitude);
-        setSelectedCity(city);
+        // Reverse geocode to get a human-readable location name
+        const locationName = await reverseGeocode(latitude, longitude);
+        setSelectedCity(locationName);
         setLocationStatus('granted');
       },
       (error) => {
