@@ -25,27 +25,27 @@ export function LoginPage() {
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
         {/* Hero */}
-        <div className="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center mb-6 shadow-lg">
+        <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center mb-6 shadow-lg">
           <span className="text-4xl">🤝</span>
         </div>
-        <h1 className="text-2xl font-bold text-violet-600 mb-2">CompanionApp</h1>
-        <p className="text-slate-500 text-center text-sm mb-8">Your social companion, just a tap away</p>
+        <h1 className="text-2xl font-bold text-white mb-2">CompanionApp</h1>
+        <p className="text-body text-center text-sm mb-8">Your social companion, just a tap away</p>
 
         {/* Form */}
         <div className="w-full max-w-sm space-y-4">
           <div>
-            <h2 className="text-lg font-bold text-slate-900 mb-3">Enter your phone number</h2>
+            <h2 className="text-lg font-bold text-ink mb-3">Enter your phone number</h2>
             <div className="flex gap-2">
-              <div className="flex items-center gap-1 bg-slate-100 rounded-2xl border-2 border-slate-200 px-4 py-3 flex-shrink-0">
+              <div className="flex items-center gap-1 bg-canvas border border-hairline-mid rounded-2xl px-4 py-3 flex-shrink-0">
                 <span className="text-lg">🇮🇳</span>
-                <span className="text-sm font-medium text-slate-700">+91</span>
+                <span className="text-sm font-medium text-ink">+91</span>
               </div>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                 placeholder="98765 43210"
-                className="flex-1 rounded-2xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100 transition-colors"
+                className="flex-1 rounded-2xl border border-hairline-mid bg-canvas px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20 transition-colors placeholder:text-body"
                 inputMode="numeric"
                 id="phone"
               />
@@ -55,7 +55,7 @@ export function LoginPage() {
           <Button
             variant="primary"
             size="lg"
-            className="w-full rounded-2xl font-bold"
+            className="w-full rounded-2xl font-bold bg-white text-black hover:bg-neutral-100"
             disabled={phone.length < 10}
             isLoading={isLoading}
             onClick={handleSubmit}
@@ -64,14 +64,14 @@ export function LoginPage() {
           </Button>
 
           <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-xs text-slate-400">or</span>
-            <div className="flex-1 h-px bg-slate-200" />
+            <div className="flex-1 h-px bg-hairline-mid" />
+            <span className="text-xs text-body">or</span>
+            <div className="flex-1 h-px bg-hairline-mid" />
           </div>
 
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 rounded-2xl py-3.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm"
+            className="w-full flex items-center justify-center gap-3 bg-canvas border-2 border-hairline-mid rounded-2xl py-3.5 text-sm font-medium text-ink hover:bg-canvas-softer transition-colors"
             onClick={() => { appToast.info('Google SSO coming soon!'); }}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -83,8 +83,8 @@ export function LoginPage() {
             Continue with Google
           </button>
 
-          <p className="text-xs text-slate-400 text-center mt-4">
-            By continuing you agree to our <span className="text-violet-600">Terms</span> & <span className="text-violet-600">Privacy Policy</span>
+          <p className="text-xs text-body text-center mt-4">
+            By continuing you agree to our <span className="text-white">Terms</span> & <span className="text-white">Privacy Policy</span>
           </p>
         </div>
       </div>
@@ -277,11 +277,11 @@ export function PartnerSignupPage() {
   if (form.isSubmitted) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 text-center">
-        <div className="w-20 h-20 rounded-full bg-violet-600 flex items-center justify-center mb-6 animate-scale-in">
-          <Check className="w-10 h-10 text-white" />
+        <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-6 animate-scale-in">
+          <Check className="w-10 h-10 text-black" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted!</h1>
-        <p className="text-slate-500 mb-6">We&apos;ll review within 24 hours</p>
+        <h1 className="text-2xl font-bold text-ink mb-2">Application Submitted!</h1>
+        <p className="text-body mb-6">We&apos;ll review within 24 hours</p>
         <Button variant="primary" size="lg" className="rounded-2xl" onClick={() => navigate('/login')}>
           Back to Login
         </Button>
@@ -293,7 +293,7 @@ export function PartnerSignupPage() {
               className="absolute w-2 h-2 rounded-full animate-confetti"
               style={{
                 left: `${Math.random() * 100}%`,
-                backgroundColor: ['#7C3AED', '#0EA5E9', '#F59E0B', '#10B981', '#EF4444'][i % 5],
+                backgroundColor: ['#ffffff', '#b8b8b8', '#6e6e6e', '#4b4b4b', '#ffffff'][i % 5],
                 animationDelay: `${Math.random() * 2}s`,
                 animationDuration: `${2 + Math.random() * 2}s`,
               }}
@@ -309,56 +309,56 @@ export function PartnerSignupPage() {
       {/* Progress Bar */}
       <div className="flex gap-2 mb-6">
         {[1, 2, 3].map((s) => (
-          <div key={s} className="flex-1 h-1.5 rounded-full overflow-hidden bg-slate-200">
+          <div key={s} className="flex-1 h-1.5 rounded-full overflow-hidden bg-hairline-mid">
             <div
-              className={cn('h-full rounded-full transition-all duration-500', s <= form.step ? 'bg-violet-600 w-full' : 'w-0')}
+              className={cn('h-full rounded-full transition-all duration-500', s <= form.step ? 'bg-white w-full' : 'w-0')}
             />
           </div>
         ))}
       </div>
 
-      <h1 className="text-xl font-bold text-slate-900 mb-1">
+      <h1 className="text-xl font-bold text-ink mb-1">
         {form.step === 1 ? 'Basic Info' : form.step === 2 ? 'About & Pricing' : 'Verification'}
       </h1>
-      <p className="text-sm text-slate-500 mb-6">Step {form.step} of 3</p>
+      <p className="text-sm text-body mb-6">Step {form.step} of 3</p>
 
       {/* Step 1 */}
       {form.step === 1 && (
         <div className="space-y-4">
           <div>
-            <label htmlFor="psName" className="text-sm font-medium text-slate-700 mb-1.5 block">Name</label>
-            <input id="psName" type="text" value={form.name} onChange={(e) => setField('name', e.target.value)} className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100" placeholder="Your full name" />
+            <label htmlFor="psName" className="text-sm font-medium text-ink mb-1.5 block">Name</label>
+            <input id="psName" type="text" value={form.name} onChange={(e) => setField('name', e.target.value)} className="w-full rounded-xl border border-hairline-mid bg-canvas px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20" placeholder="Your full name" />
           </div>
           <div>
-            <label htmlFor="psAge" className="text-sm font-medium text-slate-700 mb-1.5 block">Age</label>
-            <input id="psAge" type="number" value={form.age} onChange={(e) => setField('age', e.target.value)} className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100" placeholder="18-45" min={18} max={45} />
+            <label htmlFor="psAge" className="text-sm font-medium text-ink mb-1.5 block">Age</label>
+            <input id="psAge" type="number" value={form.age} onChange={(e) => setField('age', e.target.value)} className="w-full rounded-xl border border-hairline-mid bg-canvas px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20" placeholder="18-45" min={18} max={45} />
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1.5 block">Gender</label>
+            <label className="text-sm font-medium text-ink mb-1.5 block">Gender</label>
             <div className="flex gap-2">
               {GENDERS.map(g => (
-                <button key={g} type="button" onClick={() => setField('gender', g)} className={cn('flex-1 rounded-xl py-2.5 text-sm font-medium border-2 transition-all', form.gender === g ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-700 border-slate-200')}>{g}</button>
+                <button key={g} type="button" onClick={() => setField('gender', g)} className={cn('flex-1 rounded-xl py-2.5 text-sm font-medium border-2 transition-all', form.gender === g ? 'bg-white text-black border-white' : 'bg-canvas-softer text-ink border-hairline-mid')}>{g}</button>
               ))}
             </div>
           </div>
           <div>
-            <label htmlFor="psCity" className="text-sm font-medium text-slate-700 mb-1.5 block">City</label>
-            <select id="psCity" value={form.city} onChange={(e) => setField('city', e.target.value)} className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100">
+            <label htmlFor="psCity" className="text-sm font-medium text-ink mb-1.5 block">City</label>
+            <select id="psCity" value={form.city} onChange={(e) => setField('city', e.target.value)} className="w-full rounded-xl border border-hairline-mid bg-canvas px-4 py-3 text-sm text-ink focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20">
               <option value="">Select city</option>
               {CITIES_LIST.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-1.5 block">Profile Photo</label>
+            <label className="text-sm font-medium text-ink mb-1.5 block">Profile Photo</label>
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+              <div className="w-16 h-16 rounded-full bg-canvas-softer flex items-center justify-center overflow-hidden">
                 {form.photoPreview ? (
                   <img src={form.photoPreview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
-                  <Camera className="w-6 h-6 text-slate-400" />
+                  <Camera className="w-6 h-6 text-body" />
                 )}
               </div>
-              <label className="flex items-center gap-2 bg-slate-100 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 cursor-pointer hover:bg-slate-200 transition-colors">
+              <label className="flex items-center gap-2 bg-canvas-softer rounded-xl px-4 py-2.5 text-sm font-medium text-ink cursor-pointer hover:bg-canvas-soft transition-colors">
                 <Upload className="w-4 h-4" />
                 Upload photo
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => {
@@ -369,13 +369,13 @@ export function PartnerSignupPage() {
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-2 block">Activities</label>
+            <label className="text-sm font-medium text-ink mb-2 block">Activities</label>
             <div className="grid grid-cols-2 gap-2">
               {(['mall', 'coffee', 'movies', 'outdoor'] as ActivityType[]).map(a => {
                 const icons: Record<string, string> = { mall: '🛍', coffee: '☕', movies: '🎬', outdoor: '🌳' };
                 const labels: Record<string, string> = { mall: 'Mall', coffee: 'Coffee', movies: 'Movies', outdoor: 'Outdoors' };
                 return (
-                  <button key={a} type="button" onClick={() => toggleActivity(a)} className={cn('rounded-2xl p-3 text-sm font-medium border-2 transition-all flex items-center gap-2', form.activities.includes(a) ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-700 border-slate-200')}>
+                  <button key={a} type="button" onClick={() => toggleActivity(a)} className={cn('rounded-2xl p-3 text-sm font-medium border-2 transition-all flex items-center gap-2', form.activities.includes(a) ? 'bg-white text-black border-white' : 'bg-canvas-softer text-ink border-hairline-mid')}>
                     {icons[a]} {labels[a]}
                   </button>
                 );
@@ -390,24 +390,24 @@ export function PartnerSignupPage() {
       {form.step === 2 && (
         <div className="space-y-4">
           <div className="relative">
-            <label htmlFor="psBio" className="text-sm font-medium text-slate-700 mb-1.5 block">Bio</label>
-            <textarea id="psBio" value={form.bio} onChange={(e) => setField('bio', e.target.value)} maxLength={500} rows={4} className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-sm resize-none focus:border-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-100" placeholder="Tell users about yourself... (min 50 chars)" />
-            <span className="absolute bottom-3 right-3 text-xs text-slate-400">{form.bio.length}/500</span>
+            <label htmlFor="psBio" className="text-sm font-medium text-ink mb-1.5 block">Bio</label>
+            <textarea id="psBio" value={form.bio} onChange={(e) => setField('bio', e.target.value)} maxLength={500} rows={4} className="w-full rounded-xl border border-hairline-mid bg-canvas px-4 py-3 text-sm resize-none focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20" placeholder="Tell users about yourself... (min 50 chars)" />
+            <span className="absolute bottom-3 right-3 text-xs text-body">{form.bio.length}/500</span>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-2 block">Hourly Rate</label>
+            <label className="text-sm font-medium text-ink mb-2 block">Hourly Rate</label>
             <div className="text-center mb-2">
-              <span className="text-4xl font-bold text-violet-600">₹{form.hourlyRate}</span>
-              <span className="text-slate-500 text-lg">/hour</span>
+              <span className="text-4xl font-bold text-white">₹{form.hourlyRate}</span>
+              <span className="text-body text-lg">/hour</span>
             </div>
             <input type="range" min={200} max={2000} step={50} value={form.hourlyRate} onChange={(e) => setField('hourlyRate', Number(e.target.value))} className="w-full" />
-            <p className="text-xs text-slate-400 text-center mt-1">Most partners charge ₹400–₹800/hr</p>
+            <p className="text-xs text-body text-center mt-1">Most partners charge ₹400–₹800/hr</p>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700 mb-2 block">Languages</label>
+            <label className="text-sm font-medium text-ink mb-2 block">Languages</label>
             <div className="flex flex-wrap gap-2">
               {LANGUAGES.map(l => (
-                <button key={l} type="button" onClick={() => toggleLanguage(l)} className={cn('rounded-full px-4 py-2 text-sm font-medium border-2 transition-all', form.languages.includes(l) ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-slate-700 border-slate-200')}>{l}</button>
+                <button key={l} type="button" onClick={() => toggleLanguage(l)} className={cn('rounded-full px-4 py-2 text-sm font-medium border-2 transition-all', form.languages.includes(l) ? 'bg-white text-black border-white' : 'bg-canvas-softer text-ink border-hairline-mid')}>{l}</button>
               ))}
             </div>
           </div>
@@ -427,12 +427,12 @@ export function PartnerSignupPage() {
               { label: '🪪 Govt ID (Aadhaar/PAN/Passport)', done: form.uploadedId },
               { label: '🤳 Selfie with ID', done: form.uploadedSelfie },
             ].map((item, i) => (
-              <div key={i} className="flex items-center justify-between bg-white rounded-2xl border border-slate-200 p-4">
-                <span className="text-sm font-medium text-slate-700">{item.label}</span>
+              <div key={i} className="flex items-center justify-between bg-canvas-softer rounded-2xl border border-hairline-mid p-4">
+                <span className="text-sm font-medium text-ink">{item.label}</span>
                 {item.done ? (
                   <span className="text-green-600 text-sm font-medium">✓ Done</span>
                 ) : (
-                  <label className="flex items-center gap-1 text-violet-600 text-sm font-medium cursor-pointer hover:underline">
+                  <label className="flex items-center gap-1 text-white text-sm font-medium cursor-pointer hover:underline">
                     <Upload className="w-3.5 h-3.5" />
                     Upload
                     <input type="file" className="hidden" onChange={() => {
@@ -443,9 +443,9 @@ export function PartnerSignupPage() {
                 )}
               </div>
             ))}
-            <div className="flex items-center justify-between bg-white rounded-2xl border border-slate-200 p-4">
-              <span className="text-sm font-medium text-slate-700">📹 Schedule video call</span>
-              <button type="button" className="text-violet-600 text-sm font-medium hover:underline" onClick={() => appToast.info('Video call scheduling coming soon!')}>Schedule</button>
+            <div className="flex items-center justify-between bg-canvas-softer rounded-2xl border border-hairline-mid p-4">
+              <span className="text-sm font-medium text-ink">📹 Schedule video call</span>
+              <button type="button" className="text-white text-sm font-medium hover:underline" onClick={() => appToast.info('Video call scheduling coming soon!')}>Schedule</button>
             </div>
           </div>
           <div className="flex gap-3">

@@ -425,6 +425,16 @@ export default function HomePage() {
           )}
         </section>
       </div>
+
+      <FilterSheet
+        isOpen={isFilterOpen}
+        filters={filters}
+        onApply={(f) => {
+          setFilters(f);
+          setIsFilterOpen(false);
+        }}
+        onClose={() => setIsFilterOpen(false)}
+      />
     </div>
   );
 }
