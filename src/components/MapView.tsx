@@ -33,7 +33,7 @@ function getPartnerPosition(partnerId: string, city: string) {
 }
 
 // Google Maps API key — set VITE_GOOGLE_MAPS_API_KEY in .env
-const GOOGLE_MAPS_API_KEY = (import.meta as any).env?.VITE_GOOGLE_MAPS_API_KEY || '';
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
 interface MapViewProps {
   selectedCity: string;
