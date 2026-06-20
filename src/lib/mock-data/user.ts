@@ -14,6 +14,7 @@ export const MOCK_USER: UserProfile = {
   },
 };
 
+// TODO: replace with Supabase query
 export function getUser(): UserProfile {
   return MOCK_USER;
 }

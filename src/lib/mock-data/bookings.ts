@@ -93,10 +93,12 @@ export function subscribeToBookings(listener: Listener): () => void {
   return () => listeners.delete(listener);
 }
 
+// TODO: replace with Supabase query
 export function getUserBookings(): Booking[] {
   return [...sharedBookings];
 }
 
+// TODO: replace with Supabase query
 export function addBookingToStore(draft: BookingDraft, partner: Partner): Booking {
   const id = `b-${Date.now()}`;
   const newBooking: Booking = {
@@ -112,6 +114,7 @@ export function addBookingToStore(draft: BookingDraft, partner: Partner): Bookin
   return newBooking;
 }
 
+// TODO: replace with Supabase query
 export function cancelBookingInStore(id: string): void {
   sharedBookings = sharedBookings.map(b => 
     b.id === id ? { ...b, status: 'cancelled' as const, cancelReason: 'Cancelled by user' } : b

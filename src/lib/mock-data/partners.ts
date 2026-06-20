@@ -286,10 +286,12 @@ export const MOCK_PARTNERS: Partner[] = [
   },
 ];
 
+// TODO: replace with Supabase query
 export function getPartners(): Partner[] {
   return MOCK_PARTNERS;
 }
 
+// TODO: replace with Supabase query
 export function getPartnerById(id: string): Partner | undefined {
   return MOCK_PARTNERS.find(p => p.id === id);
 }

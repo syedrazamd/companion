@@ -23,6 +23,7 @@ export const MOCK_REVIEWS: Review[] = [
   { id: 'r-020', partnerId: 'p-011', userId: 'u-021', userName: 'Kunal Sharma', userAvatar: 'https://i.pravatar.cc/50?img=49', rating: 5, comment: 'Divya showed us the most beautiful spots in Jaipur. Heritage walk was magical!', date: '2024-11-09' },
 ];
 
+// TODO: replace with Supabase query
 export function getReviewsByPartnerId(partnerId: string): Review[] {
   return MOCK_REVIEWS.filter(r => r.partnerId === partnerId);
 }
